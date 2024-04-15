@@ -114,12 +114,10 @@ volatile bool receivedFlag = false;
 #if defined(ESP8266) || defined(ESP32)
 ICACHE_RAM_ATTR
 #endif
-void  setFlag(void)
+void setFlag(void)
 {
   // we got a packet, set the flag
   receivedFlag = true;
-  String str1;
-  radio.readData(str1);
 }
 
 void loop()
@@ -143,7 +141,9 @@ void loop()
       int numBytes = radio.getPacketLength();
       int state = radio.readData(byteArr, numBytes);
     */
-
+    // byte byteArr[8];
+    // int numBytes = radio.getPacketLength();
+    // int state = radio.readData(byteArr, numBytes);
     if (state == RADIOLIB_ERR_NONE)
     {
       // packet was successfully received
@@ -151,6 +151,11 @@ void loop()
 
       // print data of the packet
       Serial.print(F("[nRF24] Data:\t\t"));
+      // for (size_t i = 0; i < numBytes; i++)
+      // {
+      //    Serial.print(byteArr[i]);
+      // }
+      
       Serial.println(str);
     }
     else
