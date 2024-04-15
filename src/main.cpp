@@ -71,7 +71,6 @@ void setup()
     while (true)
       ;
   }
-  
 }
 
 // counter to keep track of transmitted packets
@@ -115,5 +114,5 @@ void loop()
   }
 
   // wait for a second before transmitting again
-  delay(1000);
+  delay(100);
 }
