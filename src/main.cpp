@@ -119,7 +119,7 @@ void setFlag(void)
   // we got a packet, set the flag
   receivedFlag = true;
 }
-
+unsigned long lastReceiveTime = 0; // 用于存储上一次接收时间的变量
 void loop()
 {
   String str1;
@@ -128,6 +128,7 @@ void loop()
 
   if (receivedFlag)
   {
+
     // reset flag
     receivedFlag = false;
 
@@ -147,15 +148,22 @@ void loop()
     if (state == RADIOLIB_ERR_NONE)
     {
       // packet was successfully received
-      Serial.println(F("[nRF24] Received packet!"));
-
+      // 记录当前时间
+      unsigned long currentReceiveTime = millis();
+      if (lastReceiveTime != 0)
+      {
+        unsigned long timeInterval = currentReceiveTime - lastReceiveTime;
+        Serial.print(timeInterval);
+        Serial.print(F(" ms    "));
+      }
+      lastReceiveTime = currentReceiveTime;
       // print data of the packet
       Serial.print(F("[nRF24] Data:\t\t"));
       // for (size_t i = 0; i < numBytes; i++)
       // {
       //    Serial.print(byteArr[i]);
       // }
-      
+
       Serial.println(str);
     }
     else
